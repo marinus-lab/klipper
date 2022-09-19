@@ -193,11 +193,11 @@ class MAX31855(SensorBase):
     def __init__(self, config):
         SensorBase.__init__(self, config, "MAX31855", spi_mode=0)
     def calc_temp(self, adc, fault):
-        if adc & 0x1:
+        if fault & 0x1:
             self.fault("MAX31855 : Open Circuit")
-        if adc & 0x2:
+        if fault & 0x2:
             self.fault("MAX31855 : Short to GND")
-        if adc & 0x4:
+        if fault & 0x4:
             self.fault("MAX31855 : Short to Vcc")
         adc = adc >> MAX31855_SCALE
         # Fix sign bit:
@@ -222,9 +222,9 @@ class MAX6675(SensorBase):
     def __init__(self, config):
         SensorBase.__init__(self, config, "MAX6675", spi_mode=0)
     def calc_temp(self, adc, fault):
-        if adc & 0x02:
+        if fault & 0x02:
             self.fault("Max6675 : Device ID error")
-        if adc & 0x04:
+        if fault & 0x04:
             self.fault("Max6675 : Thermocouple Open Fault")
         adc = adc >> MAX6675_SCALE
         # Fix sign bit:
