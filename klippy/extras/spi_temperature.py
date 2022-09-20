@@ -303,7 +303,7 @@ class MAX31865(SensorBase):
                 "Max31865 VRTD- is less than 0.85 * VBIAS, FORCE- open")
         if fault & 0x04:
             self.report_fault("Max31865 Overvoltage or undervoltage fault")
-        if fault & 0x03:
+        if not fault & 0xfc:
             self.report_fault("Max31865 Unspecified error")
         # Attempt to clear the fault
         self.spi.spi_send(self.config_reg)
